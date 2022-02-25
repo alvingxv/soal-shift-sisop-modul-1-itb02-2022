@@ -3,7 +3,6 @@
 echo "Halo silahkan Register terlebih dahulu"
 read -p "Username:" username
 read -s -p "Password:" password
-echo -e "\n"
 char=$(echo -n "$password" | wc -c)
 unameexists=$(awk -F: -v user=$username '$1 == user {print $1}' ./users/user.txt)
 
@@ -23,6 +22,10 @@ then
 elif ! [[ "$password" =~ [[:upper:]] ]] && [[ "$password" =~ [[:lower:]] ]]
 then
     echo -e "\nPassword minimal 1 huruf besar dan 1 huruf kecil"
+    exit 1
+elif [[ $username -eq $password ]]
+then
+    echo -e "\nUsername dan Password tidak boleh sama."
     exit 1
 else
     echo "Anda telah terdaftar sebagai User"
