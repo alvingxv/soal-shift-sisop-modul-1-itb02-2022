@@ -132,8 +132,8 @@ esac
 ```
 Bisa dilihat pada kode diatas, jika pengguna memasukkan command yang sesuai maka akan menuju case yang dipilih. Terdapat 1 input lain selain **comm** yaitu download, untuk menyimpan variabel banyak download yang diinginkan pengguna. 
 
-
-- command pertama adalah **dl N** untuk mendownload gambar dari https://loremflickr.com/320/240, dengan **dl** adalah nama dari commandnya dan N adalah banyak file yang ingin di download.
+#### i
+command pertama adalah **dl N** untuk mendownload gambar dari https://loremflickr.com/320/240, dengan **dl** adalah nama dari commandnya dan N adalah banyak file yang ingin di download.
 ```bash 
 case $comm in
     dl)
@@ -174,11 +174,48 @@ case $comm in
     ;;
 esac
 ```
-Setelah pengguna memasukkan command **dl N**, maka akan masuk ke casenya. Pertama ada 
+Setelah pengguna memasukkan command **dl N**, maka akan masuk ke casenya. Pertama akan ada pengecekan untuk apakah sudah ada file zip yang dibuat dengan nama yang sama, jika terdapat file zip yang sama maka akan file zip tersebut akan di unzip dengan password. 
 
+Selanjutnya program akan membuat folder dengan format jam. Hal ini perlu dilakukan karena jika terdapat file zip yang sudah ada maka otomatis pengguna tersebut telah menjalankan command itu sebelumnya, oleh karena itu perlu dibuat folder dengan format nama file **TIME_username** agar user dapat menjalankan command **dl** lebih dari sekali.
+
+Selanjutnya akan masuk ke for loop, ini dimana program akan mendownload file sebanyak input yang dimasukkan pengguna dengan menggunakan **"wget"**. Dalam waktu yang bersamaan ketika mendownload, program akan merename file tersebut menjadi **"PIC_X"** dengan X adalah perulangan for loop atau banyaknya file yang telah didownload dan memindahkan file tersebut ke folder yang telah dibuat. Setelah selesai mendownload semua file yang diinginkan dan dipindahkan ke folder, selanjutnya akan dilakukan zip dengan password yang ada.
+
+Jika pengecekan if tidak sesuai (tidak ada nama zip yang sama) maka proses yang dilakukan kurang lebih sama hanya saja tanpa unzip diawal.
+
+#### ii 
 Lalu ada command kedua yaitu **att** untuk Menghitung jumlah percobaan login baik yang berhasil maupun tidak dari user yang sedang login saat ini.
+```bash 
+case $comm in
+    dl)
+        /*kode*/
+    ;;
+    att)
+        login=$(awk -F: -v user=$username '$1 == user {print $3}' ./users/user.txt)
+        salah=$(awk -F: -v user=$username '$1 == user {print $4}' ./users/user.txt)
+        echo -e "\nBerhasil login sebanyak: " $login
+        echo -e "Gagal login sebanyak: " $salah
 
-## Lanjutan belum selesai
+    ;;
+    *)
+        /*kode*/
+    ;;
+esac
+```
+Cara yang digunakan untuk menyimpan record login yang berhasil dan login yang gagal yaitu dengan menyiapkan field pada **user.txt** selain username dan password, yaitu angka untuk mencatat login berhasil dan gagal.
+#### pada register.sh
+```bash 
+echo $username:$password:"0":"0" >> ./users/user.txt
+```
+Dapat dilihat pada kode diatas terdapat field **0:0** yang digenerate pada saat register. Selanjutnya untuk memasukkan record adalah ketika login berhasil atau login gagal dengan menggunakan gawk.
+#### Berhasil Login
+```bash
+gawk -F: --include inplace -v user=$username  '$1 == user {$3=$3+1} 1' OFS=: ./users/user.txt
+```
+#### Gagal Login
+```bash
+gawk -F: --include inplace -v user=$username  '$1 == user {$4=$4+1} 1' OFS=: ./users/user.txt
+```
+Dari kode diatas bisa dilihat bahwa field yang awalnya berisi 0 tadi akan diincrement sebanyak satu jika berhasil/gagal login. Lalu untuk menampilkan field tersebut dapat menggunakan awk.
 
 
 
