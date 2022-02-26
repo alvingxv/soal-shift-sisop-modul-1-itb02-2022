@@ -1,9 +1,9 @@
 #!/bin/env bash
 
-cd /home/alvin/Sistem_Operasi/inites/log
+cd /home/satrio/log
 tmp=tmp_$(date +\%Y\%m\%d\%H\%M\%S).log
 cat metrics_2022* > $tmp
-namafile=metrics_agg_$(date +\%Y\%m\%d\%H\%M\%S).log
+namafile=metrics_agg_$(date +\%Y\%m\%d\%H).log
 awk -F, '{ 
 mem_total += $1;
 mem_used += $2; 
@@ -46,5 +46,6 @@ path_size_max=$(awk -F, '{print $11}' $tmp | sort -nr | head -n 1 | awk '{print 
 
 echo "minimum $mem_total_min,$mem_used_min,$mem_free_min,$mem_shared_min,$mem_buff_min,$mem_available_min,$swap_total_min,$swap_used_min,$swap_free_min,$path,$path_size_min" >> $namafile
 echo "maximum $mem_total_max,$mem_used_max,$mem_free_max,$mem_shared_max,$mem_buff_max,$mem_available_max,$swap_total_max,$swap_used_max,$swap_free_max,$path,$path_size_max" >> $namafile
-
+chown satrio $namafile
+chmod 400 $namafile
 rm "$tmp"
