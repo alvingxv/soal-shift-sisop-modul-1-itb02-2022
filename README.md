@@ -178,5 +178,7 @@ Setelah pengguna memasukkan command **dl N**, maka akan masuk ke casenya. Pertam
 
 Lalu ada command kedua yaitu **att** untuk Menghitung jumlah percobaan login baik yang berhasil maupun tidak dari user yang sedang login saat ini.
 
+## Lanjutan belum selesai
+
 
 
