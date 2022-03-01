@@ -23,7 +23,7 @@ elif ! [[ "$password" =~ [[:upper:]] ]] && [[ "$password" =~ [[:lower:]] ]]
 then
     echo -e "\nPassword minimal 1 huruf besar dan 1 huruf kecil"
     exit 1
-elif [[ $username -eq $password ]]
+elif [[ $username == $password ]]
 then
     echo -e "\nUsername dan Password tidak boleh sama."
     exit 1
@@ -33,3 +33,4 @@ fi
 
 echo $username:$password:"0":"0" >> ./users/user.txt
 echo "$(date +%m/%d/%Y_%T) REGISTER: INFO User $username registered successfully" >> ./log.txt
+
