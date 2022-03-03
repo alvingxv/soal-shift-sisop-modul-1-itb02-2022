@@ -222,18 +222,25 @@ Terdapat kendala untuk menamai file jika telah terdapat nama file pic_01 atau pi
 
 ## Screenshot hasil soal 1
 - Berhasil register
+
 ![1](https://user-images.githubusercontent.com/83297238/156564351-717a40ba-07b8-46df-a6c1-0874c3f9ed3c.png)
 - Gagal register (user exist)
+
 ![2](https://user-images.githubusercontent.com/83297238/156564564-2e9fce41-3a5a-4dc4-a416-a68e62b945af.png)
 - Gagal Login (Password salah)
+
 ![3](https://user-images.githubusercontent.com/83297238/156564639-cac303a5-b1b7-4506-acb8-42821d9fb145.png)
 - Berhasil Login
+
 ![4](https://user-images.githubusercontent.com/83297238/156564793-e1022c64-d1cb-4948-a0ad-2498758da4a8.png)
 - Hasil command **dl**
+
 ![5](https://user-images.githubusercontent.com/83297238/156564864-5e5e2266-0d7b-401b-a246-4df6697bf450.png)
 - Hasil command **att**
+
 ![6](https://user-images.githubusercontent.com/83297238/156564923-a8845080-dee8-48a6-9823-1985879fee1a.png)
 - Isi file log
+
 ![7](https://user-images.githubusercontent.com/83297238/156564980-a17cb9fc-612c-466c-926c-c4900d1b8179.png)
 # Soal 2
 
