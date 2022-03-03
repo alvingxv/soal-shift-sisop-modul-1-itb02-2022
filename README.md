@@ -242,6 +242,7 @@ Terdapat kendala untuk menamai file jika telah terdapat nama file pic_01 atau pi
 - Isi file log
 
 ![7](https://user-images.githubusercontent.com/83297238/156564980-a17cb9fc-612c-466c-926c-c4900d1b8179.png)
+
 # Soal 2
 
 Pada tanggal 22 Januari 2022, website https://daffa.info dihack oleh seseorang yang tidak bertanggung jawab. Sehingga hari sabtu yang seharusnya hari libur menjadi berantakan. Dapos langsung membuka log website dan menemukan banyak request yang berbahaya. Bantulah Dapos untuk membaca log website https://daffa.info Buatlah sebuah script awk bernama "soal2_forensic_dapos.sh" untuk melaksanakan tugas-tugas berikut:
@@ -379,7 +380,7 @@ Disoal ini, kita diminta untuk dapat menjalankan scriptnya secara otomatis setia
 ```
 * * * * * /{user}/soal-shift-sisop-modul-1-itb02-2022/soal3/minute_log.sh >> /home/{user}/log/metrics.log 2>&1
 ``` 
-Disini menggunakan kode "* * * * *" yang berarti script akan berjalan di setiap detik dan output akan di save di direktori "/home/{}/log/". "metrics.log" digunakan sebagai tujuan disini karena cronjob tidak akan berjalan tanpa tujuan file yang jelas. Maka dari itu, akan ditambahkan kode untuk menghapus file "metrics_log" pada script "**minute_log.sh**". Kodenya dapat dilihat di bawah ini.
+Disini menggunakan kode `* * * * *` yang berarti script akan berjalan di setiap menit dan output akan di save di direktori "/home/{}/log/". "metrics.log" digunakan sebagai tujuan disini karena cronjob tidak akan berjalan tanpa tujuan file yang jelas. Maka dari itu, akan ditambahkan kode untuk menghapus file "metrics_log" pada script "**minute_log.sh**". Kodenya dapat dilihat di bawah ini.
 ```bash
 cd /home/{user}/log/
 rm metrics.log
@@ -476,6 +477,13 @@ Seluruh hasilnya akan disimpan di file yang alamatnya tersimpan di variabel nama
 - Screenshot hasil dari output "**aggregate_minutes_to_hourly_log.sh**"
 ![4](https://raw.githubusercontent.com/Satriokml/images/main/gambar_4.png)
 
+### Menjalankan file secara otomatis
+Untuk menjalankan file otomatis, kita akan menggunakan cronjob.
+```
+*/60 * * * * /{user}/soal-shift-sisop-modul-1-itb02-2022/soal3/aggregate_minutes_to_hourly_log.sh >> /home/{user}/log/metrics.log 2>&1
+```
+Disini menggunakan kode `*/60 * * * *` yang berarti script akan berjalan di setiap 60 menit / 1 jam dan output akan di save di direktori "/home/{}/log/". "metrics.log" digunakan sebagai tujuan disini karena cronjob tidak akan berjalan tanpa tujuan file yang jelas.
+
 ## D
 Disoal ini, kita diminta untuk mengganti perizinan dan pemilik dari semua file log agar hanya user yang dapat membaca file log tersebut.
 ```bash
@@ -492,9 +500,6 @@ Perbedaannya dengan kode diatas adalah hanya dalam penamaan file yang harus dimo
 - Screenshot permission dari file log
 ![5](https://raw.githubusercontent.com/Satriokml/images/main/gambar_5.png)
 
-
-
-
-
-  
-
+## Kendala yang dihadapi
+- Bingung cara mengambil file metrics permenit untuk dihitung di aggregasi.
+- Bingung cara mengaktifkan cronjob.
