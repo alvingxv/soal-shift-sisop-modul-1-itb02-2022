@@ -217,5 +217,114 @@ gawk -F: --include inplace -v user=$username  '$1 == user {$4=$4+1} 1' OFS=: ./u
 ```
 Dari kode diatas bisa dilihat bahwa field yang awalnya berisi 0 tadi akan diincrement sebanyak satu jika berhasil/gagal login. Lalu untuk menampilkan field tersebut dapat menggunakan awk.
 
+## Kendala yang dihadapi
+Terdapat kendala untuk menamai file jika telah terdapat nama file pic_01 atau pic_02 dst. lalu menamai sesuai lanjutan yang ada.
 
+## Screenshot hasil soal 1
+- Berhasil register
+![1](https://user-images.githubusercontent.com/83297238/156564351-717a40ba-07b8-46df-a6c1-0874c3f9ed3c.png)
+- Gagal register (user exist)
+![2](https://user-images.githubusercontent.com/83297238/156564564-2e9fce41-3a5a-4dc4-a416-a68e62b945af.png)
+- Gagal Login (Password salah)
+![3](https://user-images.githubusercontent.com/83297238/156564639-cac303a5-b1b7-4506-acb8-42821d9fb145.png)
+- Berhasil Login
+![4](https://user-images.githubusercontent.com/83297238/156564793-e1022c64-d1cb-4948-a0ad-2498758da4a8.png)
+- Hasil command **dl**
+![5](https://user-images.githubusercontent.com/83297238/156564864-5e5e2266-0d7b-401b-a246-4df6697bf450.png)
+- Hasil command **att**
+![6](https://user-images.githubusercontent.com/83297238/156564923-a8845080-dee8-48a6-9823-1985879fee1a.png)
+- Isi file log
+![7](https://user-images.githubusercontent.com/83297238/156564980-a17cb9fc-612c-466c-926c-c4900d1b8179.png)
+# Soal 2
+
+Pada tanggal 22 Januari 2022, website https://daffa.info dihack oleh seseorang yang tidak bertanggung jawab. Sehingga hari sabtu yang seharusnya hari libur menjadi berantakan. Dapos langsung membuka log website dan menemukan banyak request yang berbahaya. Bantulah Dapos untuk membaca log website https://daffa.info Buatlah sebuah script awk bernama "soal2_forensic_dapos.sh" untuk melaksanakan tugas-tugas berikut:
+
+A. Buat folder terlebih dahulu bernama forensic_log_website_daffainfo_log.
+
+B. Dikarenakan serangan yang diluncurkan ke website https://daffa.info sangat banyak, Dapos ingin tahu berapa rata-rata request per jam yang dikirimkan penyerang ke website. Kemudian masukkan jumlah rata-ratanya ke dalam sebuah file bernama ratarata.txt ke dalam folder yang sudah dibuat sebelumnya.
+
+C. Sepertinya penyerang ini menggunakan banyak IP saat melakukan serangan ke website https://daffa.info, Dapos ingin menampilkan IP yang paling banyak melakukan request ke server dan tampilkan berapa banyak request yang dikirimkan dengan IP tersebut. Masukkan outputnya kedalam file baru bernama result.txt kedalam folder yang sudah dibuat sebelumnya.
+
+D. Beberapa request ada yang menggunakan user-agent ada yang tidak. Dari banyaknya request, berapa banyak requests yang menggunakan user-agent curl?
+Kemudian masukkan berapa banyak requestnya kedalam file bernama result.txt yang telah dibuat sebelumnya.
+
+E. Pada jam 2 pagi pada tanggal 22 terdapat serangan pada website, Dapos ingin mencari tahu daftar IP yang mengakses website pada jam tersebut. Kemudian masukkan daftar IP tersebut kedalam file bernama result.txt yang telah dibuat sebelumnya.
+
+Agar Dapos tidak bingung saat membaca hasilnya, formatnya akan dibuat seperti ini:
+* File ratarata.txt
+Rata-rata serangan adalah sebanyak `rata_rata` requests per jam
+
+* File result.txt
+IP yang paling banyak mengakses server adalah: `ip_address` sebanyak `jumlah_request` requests
+Ada `jumlah_req_curl` requests yang menggunakan curl sebagai user-agent
+`IP Address Jam 2 pagi`
+`IP Address Jam 2 pagi`
+`dst`
+
+*Gunakan AWK
+** Nanti semua file-file HASIL SAJA yang akan dimasukkan ke dalam folder forensic_log_website_daffainfo_log
+
+## Penjelasan Code Soal 2
+---
+Pada soal ini kita diminta untuk membaca log website https://daffainfo yang terkena serangan dengan bantuan AWK script. Script berisi AWK disimpan pada satu file bernama **soal2_forensic_dapos.sh**. 
+## A
+---
+Membuat folder bernama "forensic_log_website_daffainfo_log" yang digunakan untuk menyimpan hasil dari soal nomor 2 yaitu `ratarata.txt` dan `result.txt`
+```bash
+mkdir forensic_log_website_daffainfo_log
+```
+## B
+---
+Kemudian dari log yang diberikan yaitu [**log_website_daffainfo.log**](https://drive.google.com/file/d/1_kTU-SBSGDepzDyk5SXzkSLvCNPLDcOY/view?usp=sharing) kita diminta untuk mencari rata-rata request per jam menggunakan AWK dalam file **soal2_forensic_dapos.sh** dan disimpan ke `ratarata.txt`
+```bash
+awk -F: '$3==$3{++jumlah} {tot[$3]++;} END {for (i in tot)count++; printf "Rata-rata serangan adalah sebanyak %d requests per jam\n", jumlah/count'} log_website_daffainfo.log >> ratarata.txt 
+
+```
+#### Cara Pengerjaan :
+1. **-F:** digunakan untuk mengambil field tertentu pada log dengan pemisah "**:**"
+2. Kemudian yang kita dapatkan adalah jam pada log nya, jam ini akan digunakan untuk mencari rata-ratanya
+3. Selanjutnya akan dihitung **jumlah** untuk nilai jam yang ada dan apabila sama akan dilewati
+4. Seluruh jumlah jam yang ada akan ditotal pada **tot** 
+4. Hal ini akan terus berlanjut untuk sebanyak jamnya dan setiap iterasi dihitung 1 dengan **count++**
+5. Lalu setelah didapat total jam dan countnya akan dibagi dan didapatkan rata-rata per jamnya
+6. Hasil tersebut akan disimpan ke ratarata.txt
+
+## C
+---
+Selanjutnya pada soal ini kita diminta untuk mendapatkan IP Address yang paling banyak melakukan request beserta banyaknya request yang dilakukan dan hasil akan disimpan ke `result.txt`
+```bash
+awk -F: '{print $1}' log_website_daffainfo.log | sort -n | uniq -c | sort -rn | head -n 1 | awk '{print "IP yang paling banyak mengakses server adalah: " $2 " sebanyak " $1 " requests"}' >> result.txt
+```
+#### Cara Pengerjaan:
+1. Pertama kami ingin mengambil kolom pertama dari log yang berisi IP Address menggunakan **-F** untuk memisahkan juga dengan field lain
+2. Berikutnya digunakan **sort -n** untuk menampilkan ip address secara berurutan berdasarkan secara ascending
+3. Kemudian apabila IP Address ditemukan sama maka tidak akan dihitung baru namun ditambahkan ke angka yang sudah ada sehingga hanya dihitung untuk IP Address yang berbeda dengan **uniq -c**
+4. Setelah itu baru **sort -rn** digunakan untuk membalik urutan atau reverse urutan dari yang terbanyak atau descending
+5. Terakhir karena diminta hanya menampilkan request terbanyak maka kami menggunakan **head -n 1** agar yang tampil hanya baris pertama saja
+6. Hasil tersebut akan disimpan ke result.txt
+## D
+---
+Selanjutnya pada soal ini diminta untuk mencari banyak request dengan user-agent yang menggunakan curl dan hasil akan disimpan ke `result.txt`
+```bash
+awk -F: '{if ($9 ~ /curl/) jumlah++} END {printf "Ada %d requests yang menggunakan curl sebagai user-agent\n", jumlah'} log_website_daffainfo.log >> result.txt
+```
+#### Cara Pengerjaan :
+1. Sesuai perintah kami akan mencari kata curl yang terdapat di kolom user-agent dengan kondisi **if**
+2. Pada log, kolom user agent berada di field ke-9 dengan pemisah ":" sehingga diambil field ke 9 yang memiliki kata **curl**
+3. Setelah itu apabila ditemukan kata **curl** hasilnya akan disimpan pada **jumlah** dan ditampilkan hingga habis
+4. Hasil tersebut akan disimpan ke result.txt
+## E
+---
+Pada soal ini akan dicari IP Address dari request yang terjadi pad ajam 2 pagi di tanggal 22 Februari dan hasil akan disimpan ke `result.txt`
+```bash
+awk -F: '{if ($2 ~ "22/Jan/2022" && $3 ~ /02/) print $1 " jam 2 pagi"'} log_website_daffainfo.log >> result.txt
+```
+#### Cara Pengerjaan :
+1. Pada soal ini kami menggunakan kondisi **if** untuk mencari field yang mengandung tanggal dan jam pada soal
+2. Jika pada field ke-2 pada log yang berisi tanggal ditemukan **22/Jan/2022** dan pada field ke-3 ditemukan jam **02** akan diprint field ke-1 atau IP Addressnya
+3. Hasil tersebut akan disimpan ke result.txt
+
+
+
+  
 
