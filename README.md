@@ -332,6 +332,10 @@ awk -F: '{if ($2 ~ "22/Jan/2022" && $3 ~ /02/) print $1 " jam 2 pagi"'} log_webs
 2. Jika pada field ke-2 pada log yang berisi tanggal ditemukan **22/Jan/2022** dan pada field ke-3 ditemukan jam **02** akan diprint field ke-1 atau IP Addressnya
 3. Hasil tersebut akan disimpan ke result.txt
 
+## Kendala yang dihadapi
+* Pada soal A memiliki pemikiran yang cukup berat dan referensi yang kami temukan terbatas
+* Pada soal B sebelum kita menemukan head -n 1 kami bingung dalam mengambil bagian atas dari kolom saja
+
 # Soal 3
 
 Buatlah program monitoring resource pada komputer kalian. Cukup monitoring ram dan monitoring size suatu directory. Untuk ram gunakan command `free -m`. Untuk disk gunakan command `du -sh <target_path>`. Catat semua metrics yang didapatkan dari hasil `free -m`. Untuk hasil `du -sh <target_path>` catat size dari path directory tersebut. Untuk target_path yang akan dimonitor adalah /home/{user}/.
