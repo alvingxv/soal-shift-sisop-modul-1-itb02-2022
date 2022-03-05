@@ -1,8 +1,7 @@
 #!/bin/env bash
 
 cd /home/satrio/log
-tmp=tmp_$(date +\%Y\%m\%d\%H\%M\%S).log
-cat metrics_2022* > $tmp
+tmp=temporary.txt
 namafile=metrics_agg_$(date +\%Y\%m\%d\%H).log
 awk -F, '{ 
 mem_total += $1;
