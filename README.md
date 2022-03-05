@@ -374,7 +374,7 @@ Kode diatas berguna untuk mengambil ukuran dari directory yang ditentukan. Awk a
 ### Mengatur output
 ```bash
 echo "$memory,$swap,$path" >> /home/{user}/log/$namafile
-echo "$memory,$swap,$path" >> /home/satrio/log/temporary.txt 
+echo "$memory,$swap,$path" >> /home/{user}/log/temporary.txt 
 ```
 Disini script ini akan mengeprint atau mengecho variabel "memory", "swap", dan "path", kemudian akan disimpan di directory /home/{user}/log/ dengan format nama sesuai dengan variabel "namafile". Selanjutnya output ini juga akan ter-echo ke file txt yang bernama "**temporary.txt**" yang nanti akan digunakan untuk aggregat setiap menit di soal selanjutnya.
 
