@@ -336,6 +336,7 @@ awk -F: '{if ($2 ~ "22/Jan/2022" && $3 ~ /02/) print $1 " jam 2 pagi"'} log_webs
 * Pada soal A memiliki pemikiran yang cukup berat dan referensi yang kami temukan terbatas
 * Pada soal B sebelum kita menemukan head -n 1 kami bingung dalam mengambil bagian atas dari kolom saja
 
+
 # Soal 3
 
 Buatlah program monitoring resource pada komputer kalian. Cukup monitoring ram dan monitoring size suatu directory. Untuk ram gunakan command `free -m`. Untuk disk gunakan command `du -sh <target_path>`. Catat semua metrics yang didapatkan dari hasil `free -m`. Untuk hasil `du -sh <target_path>` catat size dari path directory tersebut. Untuk target_path yang akan dimonitor adalah /home/{user}/.
@@ -373,8 +374,9 @@ Kode diatas berguna untuk mengambil ukuran dari directory yang ditentukan. Awk a
 ### Mengatur output
 ```bash
 echo "$memory,$swap,$path" >> /home/{user}/log/$namafile
+echo "$memory,$swap,$path" >> /home/satrio/log/temporary.txt 
 ```
-Disini script ini akan mengeprint atau mengecho variabel "memory", "swap", dan "path", kemudian akan disimpan di directory /home/{user}/log/ dengan format nama sesuai dengan variabel "namafile".
+Disini script ini akan mengeprint atau mengecho variabel "memory", "swap", dan "path", kemudian akan disimpan di directory /home/{user}/log/ dengan format nama sesuai dengan variabel "namafile". Selanjutnya output ini juga akan ter-echo ke file txt yang bernama "**temporary.txt**" yang nanti akan digunakan untuk aggregat setiap menit di soal selanjutnya.
 
 - Screenshot hasil output dari script "**minute_log.sh**"
 ![2](https://raw.githubusercontent.com/Satriokml/images/main/gambar_2.png)
@@ -384,7 +386,7 @@ Disoal ini, kita diminta untuk dapat menjalankan scriptnya secara otomatis setia
 ```
 * * * * * /{user}/soal-shift-sisop-modul-1-itb02-2022/soal3/minute_log.sh >> /home/{user}/log/metrics.log 2>&1
 ``` 
-Disini menggunakan kode `* * * * *` yang berarti script akan berjalan di setiap menit dan output akan di save di direktori "/home/{}/log/". "metrics.log" digunakan sebagai tujuan disini karena cronjob tidak akan berjalan tanpa tujuan file yang jelas. Maka dari itu, akan ditambahkan kode untuk menghapus file "metrics_log" pada script "**minute_log.sh**". Kodenya dapat dilihat di bawah ini.
+Disini menggunakan kode `* * * * *` yang berarti script akan berjalan di setiap menit dan output akan di save di direktori "/home/{user}/log/". "metrics.log" digunakan sebagai tujuan disini karena cronjob tidak akan berjalan tanpa tujuan file yang jelas. Maka dari itu, akan ditambahkan kode untuk menghapus file "metrics_log" pada script "**minute_log.sh**". Kodenya dapat dilihat di bawah ini.
 ```bash
 cd /home/{user}/log/
 rm metrics.log
@@ -392,16 +394,15 @@ rm metrics.log
 ## C
 Disoal ini kita diminta untuk mengambil data dari semua log metrics yang telah dibuat oleh "**minute_log.sh**" setiap menit dan mengolah datanya untuk mendapat average, minimum, dan maximum dari seluruh metrics yang dibuat satu jam sebelumnya. Script ini diminta untuk berjalan secara otomatis setiap jam, dan akan disimpan di direktori log dengan format "**metrics_agg_{YmdH}.log**".
 
-### Mengatur nama file dan membuat tmp
+### Mengatur nama file dan mengambil data dari tmp
 Pada bagian ini, kita akan mengatur nama format file yang akan dijadikan sebagai output, dan membuat file tmp untuk mencatat dan melakukan perhitungan.
 
 ```bash
 cd /home/{user}/log
-tmp=tmp_$(date +\%Y\%m\%d\%H\%M\%S).log
-cat metrics_2022* > $tmp
+tmp=temporary.txt
 namafile=metrics_agg_$(date +\%Y\%m\%d\%H).log
 ```
-Pertama-tama kita harus mengganti direktori ke "/home/{user}/log" untuk menentukan tujuan untuk menyimpan file. Selanjutnya buat variabel tmp untuk menyimpan data seluruh metrics satu jam sebelumnya, file tmp ini juga dilakukan untuk menghitung average, minimum, dan maximum pada langkah selanjutnya. Script akan menginput seluruh file metrics yang pada soal sebelumnya sudah dibuat tiap menitnya dan menyimpannya ke file tmp.
+Pertama-tama kita harus mengganti direktori ke "/home/{user}/log" untuk menentukan tujuan untuk menyimpan file. Selanjutnya buat variabel tmp dimana tmp adalah kumpulan data metrics yang sudah dilakukan satu jam sebelumnya. File "**temporary.txt**" ini adalah file yang sudah dibuat pada script sebelumnya yaitu script "**minute_log.sh**". File tmp ini juga berguna untuk menghitung average, minimum, dan maximum pada langkah selanjutnya.
 - Screnshoot file tmp
 ![3](https://raw.githubusercontent.com/Satriokml/images/main/gambar_3.png)
 
