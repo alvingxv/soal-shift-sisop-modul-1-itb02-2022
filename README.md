@@ -273,16 +273,16 @@ Ada `jumlah_req_curl` requests yang menggunakan curl sebagai user-agent
 ** Nanti semua file-file HASIL SAJA yang akan dimasukkan ke dalam folder forensic_log_website_daffainfo_log
 
 ## Penjelasan Code Soal 2
----
+
 Pada soal ini kita diminta untuk membaca log website https://daffainfo yang terkena serangan dengan bantuan AWK script. Script berisi AWK disimpan pada satu file bernama **soal2_forensic_dapos.sh**. 
 ## A
----
+
 Membuat folder bernama "forensic_log_website_daffainfo_log" yang digunakan untuk menyimpan hasil dari soal nomor 2 yaitu `ratarata.txt` dan `result.txt`
 ```bash
 mkdir forensic_log_website_daffainfo_log
 ```
 ## B
----
+
 Kemudian dari log yang diberikan yaitu [**log_website_daffainfo.log**](https://drive.google.com/file/d/1_kTU-SBSGDepzDyk5SXzkSLvCNPLDcOY/view?usp=sharing) kita diminta untuk mencari rata-rata request per jam menggunakan AWK dalam file **soal2_forensic_dapos.sh** dan disimpan ke `ratarata.txt`
 ```bash
 awk -F: '$3==$3{++jumlah} {tot[$3]++;} END {for (i in tot)count++; printf "Rata-rata serangan adalah sebanyak %d requests per jam\n", jumlah/count'} log_website_daffainfo.log >> ratarata.txt 
@@ -298,7 +298,7 @@ awk -F: '$3==$3{++jumlah} {tot[$3]++;} END {for (i in tot)count++; printf "Rata-
 6. Hasil tersebut akan disimpan ke ratarata.txt
 
 ## C
----
+
 Selanjutnya pada soal ini kita diminta untuk mendapatkan IP Address yang paling banyak melakukan request beserta banyaknya request yang dilakukan dan hasil akan disimpan ke `result.txt`
 ```bash
 awk -F: '{print $1}' log_website_daffainfo.log | sort -n | uniq -c | sort -rn | head -n 1 | awk '{print "IP yang paling banyak mengakses server adalah: " $2 " sebanyak " $1 " requests"}' >> result.txt
@@ -311,7 +311,7 @@ awk -F: '{print $1}' log_website_daffainfo.log | sort -n | uniq -c | sort -rn | 
 5. Terakhir karena diminta hanya menampilkan request terbanyak maka kami menggunakan **head -n 1** agar yang tampil hanya baris pertama saja
 6. Hasil tersebut akan disimpan ke result.txt
 ## D
----
+
 Selanjutnya pada soal ini diminta untuk mencari banyak request dengan user-agent yang menggunakan curl dan hasil akan disimpan ke `result.txt`
 ```bash
 awk -F: '{if ($9 ~ /curl/) jumlah++} END {printf "Ada %d requests yang menggunakan curl sebagai user-agent\n", jumlah'} log_website_daffainfo.log >> result.txt
@@ -322,7 +322,7 @@ awk -F: '{if ($9 ~ /curl/) jumlah++} END {printf "Ada %d requests yang menggunak
 3. Setelah itu apabila ditemukan kata **curl** hasilnya akan disimpan pada **jumlah** dan ditampilkan hingga habis
 4. Hasil tersebut akan disimpan ke result.txt
 ## E
----
+
 Pada soal ini akan dicari IP Address dari request yang terjadi pad ajam 2 pagi di tanggal 22 Februari dan hasil akan disimpan ke `result.txt`
 ```bash
 awk -F: '{if ($2 ~ "22/Jan/2022" && $3 ~ /02/) print $1 " jam 2 pagi"'} log_website_daffainfo.log >> result.txt
