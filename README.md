@@ -337,6 +337,13 @@ awk -F: '{if ($2 ~ "22/Jan/2022" && $3 ~ /02/) print $1 " jam 2 pagi"'} log_webs
 * Pada soal B sebelum kita menemukan head -n 1 kami bingung dalam mengambil bagian atas dari kolom saja
 
 
+## Screenshot Hasil Soal 2
+- File ratarata.txt
+![1](https://raw.githubusercontent.com/mitaannisa/.github-images/main/rata.PNG)
+- File result.txt
+![2](https://raw.githubusercontent.com/mitaannisa/.github-images/main/result%201.PNG)
+![2](https://raw.githubusercontent.com/mitaannisa/.github-images/main/result%202.PNG)
+
 # Soal 3
 
 Buatlah program monitoring resource pada komputer kalian. Cukup monitoring ram dan monitoring size suatu directory. Untuk ram gunakan command `free -m`. Untuk disk gunakan command `du -sh <target_path>`. Catat semua metrics yang didapatkan dari hasil `free -m`. Untuk hasil `du -sh <target_path>` catat size dari path directory tersebut. Untuk target_path yang akan dimonitor adalah /home/{user}/.
